@@ -18,8 +18,10 @@ export const
 export class ApiService {
 
   private apiKey = '6c96388ed5f8824e3cd0eb5d370fe783';
-  private apiBaseUrl = 'http://data.fixer.io/api';
-  private endpointCurrentRates = 'latest?access_key=';
+  // private apiBaseUrl = 'http://data.fixer.io/api';
+  private apiBaseUrl = 'https://free.currencyconverterapi.com/api/v6/convert?q=';
+  private sampleReqParams = 'EUR_USD';
+  private urlEnd = '&compact=ultra';
 
   constructor(
     private _httpClient: HttpClient,
@@ -29,41 +31,41 @@ export class ApiService {
     let response;
   switch (req.method) {
       case REQUEST_TYPE_GET:
-      response = this._httpClient.get<T>(`${this.apiBaseUrl}/${this.endpointCurrentRates}${this.apiKey}`);
-              map(res => {
-                return res;
-            }),
-            catchError(err => {
-                return Observable.throw(err);
-            });
-        break;
-// case REQUEST_TYPE_POST:
-      //     response = this._httpClient.post<T>(`${this.apiBaseUrl}/${req.url}`, req.body)
-      //         .map(res => {
-      //             return res;
-      //         })
-      //         .catch(err => {
-      //             return Observable.throw(err);
-      //         });
-      //     break;
+        response = this._httpClient.get<T>(`${this.apiBaseUrl}${req.url}${this.urlEnd}`);
+          map(res => {
+            return res;
+          }),
+          catchError(err => {
+            return Observable.throw(err);
+          });
+          break;
+      // case REQUEST_TYPE_POST:
+      //   response = this._httpClient.post<T>(`${this.apiBaseUrl}/${this.endpointCurrentRates}${this.apiKey}`, req.body);
+      //     map(res => {
+      //       return res;
+      //     }),
+      //     catchError(err => {
+      //       return Observable.throw(err);
+      //     });
+      //   break;
       // case REQUEST_TYPE_PUT:
-      //     response = this._httpClient.put<T>(`${this.apiBaseUrl}/${req.url}`, req.body)
-      //         .map(res => {
-      //             return res;
-      //         })
-      //         .catch(err => {
-      //             return Observable.throw(err);
-      //         });
-      //     break;
+      //   response = this._httpClient.put<T>(`${this.apiBaseUrl}/${this.endpointCurrentRates}${this.apiKey}`, req.body);
+      //     map(res => {
+      //       return res;
+      //     }),
+      //     catchError(err => {
+      //       return Observable.throw(err);
+      //     });
+      //   break;
       // case REQUEST_TYPE_DELETE:
-      //     response = this._httpClient.delete<T>(`${this.apiBaseUrl}/${req.url}`)
-      //         .map(res => {
-      //             return res;
-      //         })
-      //         .catch(err => {
-      //             return Observable.throw(err);
-      //         });
-      //     break;
+      //   response = this._httpClient.delete<T>(`${this.apiBaseUrl}/${this.endpointCurrentRates}${this.apiKey}`);
+      //     map(res => {
+      //       return res;
+      //     }),
+      //     catchError(err => {
+      //       return Observable.throw(err);
+      //     });
+      //   break;
       default:
           throw new Error(`invalid value provided for RequestType => [${req.method}]`);
   }

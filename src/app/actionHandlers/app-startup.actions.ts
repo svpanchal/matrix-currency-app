@@ -10,8 +10,11 @@ export class AppStartupActions {
         private _apiService: ApiService,
     ) { }
 
-    public initializeApp() {
-        const req = new HttpRequest(REQUEST_TYPE_GET, '');
+    public getRate(rates) {
+        // const sampleReqParams = 'EUR_USD';
+
+        const req = new HttpRequest(REQUEST_TYPE_GET, `${rates}`);
+        console.log(req);
         this._apiService.callApiService(req).subscribe(
             (response) => {
                 if (response) {
