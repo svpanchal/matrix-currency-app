@@ -6,8 +6,8 @@
 
   <div class="bodyContent">
     <div class="results" *ngIf="isResultDisplayed">
-      {{ displayedInputCurrencyValue }} {{ displayedInputCurrency }} equals
-      {{ displayedConvertedCurrencyValue }} {{ displayedConvertedCurrency }}
+      {{ displayedInputCurrencyValue }} {{ displayedInputCurrency?.name }} equals
+      {{ displayedConvertedCurrencyValue }} {{ displayedConvertedCurrency?.name }}
     </div>
 
     <div class="currencyForm" [formGroup]="currencyForm" (ngSubmit)="convertValues()">

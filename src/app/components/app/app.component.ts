@@ -19,11 +19,11 @@ export class AppComponent implements OnInit, OnDestroy {
   public currencyArray: Array<CurrencyData> = [];
   public isResultDisplayed = false;
   public displayedInputCurrencyValue: string;
-  public displayedInputCurrency: string;
   public displayedConvertedCurrencyValue: string;
-  public displayedConvertedCurrency: string;
-  public inputCurrency: CurrencyData;
-  public convertedCurrency: CurrencyData;
+  public displayedInputCurrency: CurrencyData;
+  public displayedConvertedCurrency: CurrencyData;
+  public inputCurrencyType: string;
+  public convertedCurrencyType: string;
   public currencyFormValueChangesSubscription: any;
   private currencyValuesForUrl: string;
 
@@ -47,23 +47,23 @@ export class AppComponent implements OnInit, OnDestroy {
     this.assignComponentProperties();
   }
 
-    private assignComponentProperties(): void {
-        this.currencyForm = this._fb.group({
-          inputCurrencyValue: '',
-          convertedCurrencyValue: '',
-          inputCurrencyType: '',
-          convertedCurrencyType: ''
-        });
+  private assignComponentProperties(): void {
+    this.currencyForm = this._fb.group({
+      inputCurrencyValue: '',
+      convertedCurrencyValue: '',
+      inputCurrencyType: '',
+      convertedCurrencyType: ''
+    });
 
-        this.currencyFormValueChangesSubscription = this.currencyForm.valueChanges.subscribe(val => {
-          const inputCurrencyType = this.currencyForm.get('inputCurrencyType').value;
-          const convertedCurrencyType = this.currencyForm.get('convertedCurrencyType').value;
+    this.currencyFormValueChangesSubscription = this.currencyForm.valueChanges.subscribe(val => {
+      this.inputCurrencyType = this.currencyForm.get('inputCurrencyType').value;
+      this.convertedCurrencyType = this.currencyForm.get('convertedCurrencyType').value;
 
-          if (inputCurrencyType && convertedCurrencyType) {
-              this.setCurrenciesForGetRateReq(inputCurrencyType, convertedCurrencyType);
-          }
-      });
-    }
+      if (this.inputCurrencyType && this.convertedCurrencyType) {
+        this.setCurrenciesForGetRateReq(this.inputCurrencyType, this.convertedCurrencyType);
+      }
+    });
+  }
 
   public ngOnDestroy() {
     this.currencyFormValueChangesSubscription.unsubscribe();
@@ -85,8 +85,16 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isResultDisplayed = true;
     this.displayedConvertedCurrencyValue = this.currencyForm.get('convertedCurrencyValue').value;
     this.displayedInputCurrencyValue = this.currencyForm.get('inputCurrencyValue').value;
-    this.displayedInputCurrency = this.currencyForm.get('inputCurrencyType').value;
-    this.displayedConvertedCurrency = this.currencyForm.get('convertedCurrencyType').value;
+    this.displayedInputCurrency = this.currencyArray.find((c) => {
+      if (c.code === this.inputCurrencyType) {
+        return true;
+      }
+    })
+    this.displayedConvertedCurrency = this.currencyArray.find((c) => {
+      if (c.code === this.convertedCurrencyType) {
+        return true;
+      }
+    })
   }
 
   private getRateForConversion(): void {
@@ -115,11 +123,9 @@ export class AppComponent implements OnInit, OnDestroy {
     if (!inputCurrencyType || !convertedCurrencyType) {
       alert('You are missing key data, please select the currencies you wish to convert');
     }
-
     const currencyValues = `${inputCurrencyType}_${convertedCurrencyType}`;
     this.currencyValuesForUrl = currencyValues;
     console.log(this.currencyValuesForUrl);
     this.getRateForConversion();
   }
-
 }
