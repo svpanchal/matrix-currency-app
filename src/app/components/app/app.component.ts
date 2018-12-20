@@ -50,9 +50,7 @@ export class AppComponent implements OnInit, OnDestroy {
           const convertedCurrencyType = this.currencyForm.get('convertedCurrencyType').value;
 
           if (inputCurrencyType && convertedCurrencyType) {
-            if (!this.currencyValuesForUrl) {
               this.setCurrenciesForGetRateReq(inputCurrencyType, convertedCurrencyType);
-            }
           }
       });
     }
