@@ -73,7 +73,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.currencyForm.get('convertedCurrencyValue').setValue(convertedValue);
   }
 
-  private setCurrenciesForConversion(): void {
+  private getRateForConversion(): void {
     if (!this.currencyValuesForUrl) {
       alert('You are missing key data, please select the currencies you wish to convert');
     }
@@ -103,7 +103,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const currencyValues = `${inputCurrencyType}_${convertedCurrencyType}`;
     this.currencyValuesForUrl = currencyValues;
     console.log(this.currencyValuesForUrl);
-    this.setCurrenciesForConversion();
+    this.getRateForConversion();
   }
 
 }
