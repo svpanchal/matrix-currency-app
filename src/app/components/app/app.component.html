@@ -12,19 +12,18 @@
 
     <div class="currencyForm" [formGroup]="currencyForm">
       <div class="currencyRow">
-        <input formControlName="inputCurrencyValue">
-        <select formControlName="inputCurrencyType">
+        <input class="currencyInput" formControlName="inputCurrencyValue">
+        <select class="currencySelector" formControlName="inputCurrencyType">
           <option *ngFor="let currency of currencyArray" [value]="currency.code">{{currency.name}} <i class={{currency.sign}}></i></option>
         </select>
       </div>
       <div class="currencyRow">
-        <input formControlName="convertedCurrencyValue">
-        <select formControlName="convertedCurrencyType">
+        <input class="currencyInput" formControlName="convertedCurrencyValue">
+        <select class="currencySelector" formControlName="convertedCurrencyType">
           <option *ngFor="let currency of currencyArray" [value]="currency.code">{{currency.name}}</option>
         </select>
       </div>
 
-      <div class="submitButton" (click)="setCurrenciesForConversion()">Set Currencies</div>
       <div class="submitButton" (click)="convertValues()">Convert</div>
     </div>
   </div>
