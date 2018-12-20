@@ -6,21 +6,23 @@
 
   <div class="bodyContent">
     <div class="results" *ngIf="isResultDisplayed">
-      {{displayedInputCurrencyValue}} {{displayedInputCurrency}} equals
-      {{displayedConvertedCurrencyValue}} {{displayedConvertedCurrency}}
+      {{ displayedInputCurrencyValue }} {{ displayedInputCurrency }} equals
+      {{ displayedConvertedCurrencyValue }} {{ displayedConvertedCurrency }}
     </div>
 
-    <div class="currencyForm" [formGroup]="currencyForm">
+    <div class="currencyForm" [formGroup]="currencyForm" (ngSubmit)="convertValues()">
       <div class="currencyRow">
-        <input class="currencyInput" formControlName="inputCurrencyValue">
+        <input class="currencyInput" type="number" min="1" placeholder="Enter a number" formControlName="inputCurrencyValue">
         <select class="currencySelector" formControlName="inputCurrencyType">
-          <option *ngFor="let currency of currencyArray" [value]="currency.code">{{currency.name}} <i class={{currency.sign}}></i></option>
+          <option value="" disabled selected>Select a currency</option>
+          <option *ngFor="let currency of currencyArray" [value]="currency.code">{{ currency.name }} <i class={{currency.sign}}></i></option>
         </select>
       </div>
       <div class="currencyRow">
-        <input class="currencyInput" formControlName="convertedCurrencyValue">
+        <input class="currencyInput" type="number" min="1" formControlName="convertedCurrencyValue">
         <select class="currencySelector" formControlName="convertedCurrencyType">
-          <option *ngFor="let currency of currencyArray" [value]="currency.code">{{currency.name}}</option>
+          <option value="" disabled selected>Select a currency</option>
+          <option *ngFor="let currency of currencyArray" [value]="currency.code">{{ currency.name }}</option>
         </select>
       </div>
 

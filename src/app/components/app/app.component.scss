@@ -29,17 +29,20 @@
     padding: 4px;
     color: #5c7171;
 }
-// .currencySelector {
-//     height: 2em;
-//     border: 0.5px solid black;
-//     border-radius: 2px;
-//     width: 8em;
-// }
+.results {
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    color: #5c7171;
+    font-weight: bold;
+    border: 1px solid cadetblue;
+    padding: 0.5em;
+    padding-right: 3em;
+}
 .currencySelector {
     height: 2em;
     border: 0.75px solid cadetblue;
     border-radius: 2px;
-    width: 8em;
+    width: 14em;
     color: #5c7171;
 }
 .submitButton {
@@ -53,15 +56,10 @@
     color: cadetblue;
     border-radius: 3px;
     margin-top: 0.5em;
+    text-transform: uppercase;
 
     &:hover {
         background-color: cadetblue;
         color: white;
     }
-}
-.results {
-    
-}
-.currencyForm{
-
 }

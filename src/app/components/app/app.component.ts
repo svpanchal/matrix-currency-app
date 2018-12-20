@@ -17,7 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public currencyCodes: Array<string> = [];
   public conversionRate: number;
   public currencyArray: Array<CurrencyData> = [];
-  public isResultDisplayed: boolean = false;
+  public isResultDisplayed = false;
   public displayedInputCurrencyValue: string;
   public displayedInputCurrency: string;
   public displayedConvertedCurrencyValue: string;
