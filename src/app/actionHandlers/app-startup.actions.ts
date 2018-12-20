@@ -13,11 +13,8 @@ export class AppStartupActions {
         private _apiService: ApiService,
     ) { }
 
-    public getRate(rates): Observable<CurrenciesResponse>{
-        // const sampleReqParams = 'EUR_USD';
-
+    public getRate(rates): Observable<CurrenciesResponse> {
         const req = new HttpRequest(REQUEST_TYPE_GET, `${rates}`);
-        console.log(req);
         return this._apiService.callApiService<CurrenciesResponse>(req);
 
         // this._apiService.callApiService(req).subscribe(
@@ -32,5 +29,4 @@ export class AppStartupActions {
         //         console.log('hit httpErrorResponse');
         //     });
     }
-
 }

@@ -58,13 +58,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this.currencyForm.get('convertedCurrencyValue').setValue(convertedValue);
   }
 
-  public buildRequestForApi(): void {
-    const requestedRates = this.buildRateRequest();
-    if (!requestedRates) {
+  public setCurrenciesForConversion(): void {
+    const requestedCurrencies = this.setCurrenciesForGetRateReq();
+    if (!requestedCurrencies) {
       return;
     }
 
-    this._appStartupActions.getRate(requestedRates)
+    this._appStartupActions.getRate(requestedCurrencies)
       .subscribe(
         (response) => {
           if (response && Object.keys(response) && Object.keys(response).length) {
@@ -81,14 +81,17 @@ export class AppComponent implements OnInit, OnDestroy {
       );
   }
 
-  private buildRateRequest(): string {
+  private setCurrenciesForGetRateReq(): string {
     const inputCurrencyType = this.currencyForm.get('inputCurrencyType').value;
     const convertedCurrencyType = this.currencyForm.get('convertedCurrencyType').value;
 
-    console.log(inputCurrencyType, convertedCurrencyType);
-    const requestedRates = `${inputCurrencyType}_${convertedCurrencyType}`;
-    console.log(requestedRates);
-    return requestedRates;
+    if (!inputCurrencyType || !convertedCurrencyType) {
+      alert('You are missing key data, please enter the currencies you wish you convert');
+    }
+
+    const currencyValues = `${inputCurrencyType}_${convertedCurrencyType}`;
+    // console.log(currencyValues);
+    return currencyValues;
   }
 
 }
