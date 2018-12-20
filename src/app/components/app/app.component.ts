@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { AppStartupActions } from '../../actionHandlers/app-startup.actions';
 import { CurrencyRates } from 'src/app/models/currencyRates';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CurrencyData } from 'src/app/models/currencyData';
+import * as Data from 'src/app/constants/data';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +16,14 @@ export class AppComponent implements OnInit, OnDestroy {
   public currencyForm: FormGroup;
   public currencyCodes: Array<string> = [];
   public conversionRate: number;
+  public currencyArray: Array<CurrencyData> = [];
+  public isResultDisplayed: boolean = false;
+  public displayedInputCurrencyValue: string;
+  public displayedInputCurrency: string;
+  public displayedConvertedCurrencyValue: string;
+  public displayedConvertedCurrency: string;
+  public inputCurrency: CurrencyData;
+  public convertedCurrency: CurrencyData;
   public currencyFormValueChangesSubscription: any;
   private currencyValuesForUrl: string;
 
@@ -24,18 +34,18 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     const initialRates = `USD_EUR`;
-      // let angular initialization finish before calling any backend APIs
-      // window.setTimeout(() => this._appStartupActions.getRate(initialRates), 100);
+    // let angular initialization finish before calling any backend APIs
+    // window.setTimeout(() => this._appStartupActions.getRate(initialRates), 100);
 
-      this.currencyForm = this._fb.group({
-        inputCurrencyValue: '',
-        convertedCurrencyValue: '',
-        inputCurrencyType: '',
-        convertedCurrencyType: ''
-      });
-
-      this.assignComponentProperties();
-    }
+    this.currencyForm = this._fb.group({
+      inputCurrencyValue: '',
+      convertedCurrencyValue: '',
+      inputCurrencyType: '',
+      convertedCurrencyType: ''
+    });
+    this.currencyArray = Data.CURRENCY_DATA;
+    this.assignComponentProperties();
+  }
 
     private assignComponentProperties(): void {
         this.currencyForm = this._fb.group({
@@ -55,7 +65,6 @@ export class AppComponent implements OnInit, OnDestroy {
       });
     }
 
-
   public ngOnDestroy() {
     this.currencyFormValueChangesSubscription.unsubscribe();
   }
@@ -69,6 +78,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
     const convertedValue = parseInt(inputNumber, 10) * this.conversionRate;
     this.currencyForm.get('convertedCurrencyValue').setValue(convertedValue);
+    this.setDisplayValues();
+  }
+
+  public setDisplayValues(): void {
+    this.isResultDisplayed = true;
+    this.displayedConvertedCurrencyValue = this.currencyForm.get('convertedCurrencyValue').value;
+    this.displayedInputCurrencyValue = this.currencyForm.get('inputCurrencyValue').value;
+    this.displayedInputCurrency = this.currencyForm.get('inputCurrencyType').value;
+    this.displayedConvertedCurrency = this.currencyForm.get('convertedCurrencyType').value;
   }
 
   private getRateForConversion(): void {

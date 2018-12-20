@@ -5,9 +5,11 @@ import { HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { CurrenciesResponse } from '../models/currenciesResponse';
+import { CurrencyData } from '../models/currencyData';
 
 @Injectable()
 export class AppStartupActions {
+    public currencyArray: Array<CurrencyData> = [];
 
     constructor(
         private _apiService: ApiService,
@@ -29,4 +31,5 @@ export class AppStartupActions {
         //         console.log('hit httpErrorResponse');
         //     });
     }
+
 }
