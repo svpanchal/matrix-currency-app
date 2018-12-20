@@ -4,24 +4,23 @@
     <h1>Matrix Currency Converter</h1>
   </div>
 
-  <div class="bodyContent" >
-    <div class="results">
-
+  <div class="bodyContent">
+    <div class="results" *ngIf="isResultDisplayed">
+      {{displayedInputCurrencyValue}} {{displayedInputCurrency}} equals
+      {{displayedConvertedCurrencyValue}} {{displayedConvertedCurrency}}
     </div>
 
     <div class="currencyForm" [formGroup]="currencyForm">
       <div class="currencyRow">
         <input formControlName="inputCurrencyValue">
         <select formControlName="inputCurrencyType">
-          <option>EUR</option>
-          <option>USD</option>
+          <option *ngFor="let currency of currencyArray" [value]="currency.code">{{currency.name}} <i class={{currency.sign}}></i></option>
         </select>
       </div>
       <div class="currencyRow">
         <input formControlName="convertedCurrencyValue">
         <select formControlName="convertedCurrencyType">
-          <option>EUR</option>
-          <option>USD</option>
+          <option *ngFor="let currency of currencyArray" [value]="currency.code">{{currency.name}}</option>
         </select>
       </div>
 
