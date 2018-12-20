@@ -11,15 +11,15 @@
 
     <div class="currencyForm" [formGroup]="currencyForm">
       <div class="currencyRow">
-        <input formControlName="inputCurrencyValue">
-        <select formControlName="inputCurrencyType">
+        <input class="currencyInput" formControlName="inputCurrencyValue">
+        <select class="currencySelector" formControlName="inputCurrencyType">
           <option>EUR</option>
           <option>USD</option>
         </select>
       </div>
       <div class="currencyRow">
-        <input formControlName="convertedCurrencyValue">
-        <select formControlName="convertedCurrencyType">
+        <input class="currencyInput" formControlName="convertedCurrencyValue">
+        <select class="currencySelector" formControlName="convertedCurrencyType">
           <option>EUR</option>
           <option>USD</option>
         </select>
