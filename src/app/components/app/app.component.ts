@@ -14,6 +14,8 @@ export class AppComponent implements OnInit, OnDestroy {
   public currencyForm: FormGroup;
   public currencyCodes: Array<string> = [];
   public conversionRate: number;
+  public currencyFormValueChangesSubscription: any;
+  private currencyValuesForUrl: string;
 
   constructor(
     private _fb: FormBuilder,
@@ -42,15 +44,28 @@ export class AppComponent implements OnInit, OnDestroy {
           inputCurrencyType: '',
           convertedCurrencyType: ''
         });
+
+        this.currencyFormValueChangesSubscription = this.currencyForm.valueChanges.subscribe(val => {
+          const inputCurrencyType = this.currencyForm.get('inputCurrencyType').value;
+          const convertedCurrencyType = this.currencyForm.get('convertedCurrencyType').value;
+
+          if (inputCurrencyType && convertedCurrencyType) {
+            if (!this.currencyValuesForUrl) {
+              this.setCurrenciesForGetRateReq(inputCurrencyType, convertedCurrencyType);
+            }
+          }
+      });
     }
 
-  public ngOnDestroy() {}
+
+  public ngOnDestroy() {
+    this.currencyFormValueChangesSubscription.unsubscribe();
+  }
 
   public convertValues(): number {
-
     const inputNumber = this.currencyForm.get('inputCurrencyValue').value;
-    //  take the rate returned from the API and do the math using the form values, return the converted value
     if (!this.conversionRate || !inputNumber) {
+      alert('You are missing key data, please select the currencies you wish to convert and a value');
       return 0;
     }
 
@@ -58,19 +73,18 @@ export class AppComponent implements OnInit, OnDestroy {
     this.currencyForm.get('convertedCurrencyValue').setValue(convertedValue);
   }
 
-  public setCurrenciesForConversion(): void {
-    const requestedCurrencies = this.setCurrenciesForGetRateReq();
-    if (!requestedCurrencies) {
-      return;
+  private setCurrenciesForConversion(): void {
+    if (!this.currencyValuesForUrl) {
+      alert('You are missing key data, please select the currencies you wish to convert');
     }
 
-    this._appStartupActions.getRate(requestedCurrencies)
+    this._appStartupActions.getRate(this.currencyValuesForUrl)
       .subscribe(
         (response) => {
           if (response && Object.keys(response) && Object.keys(response).length) {
             const responseObj = response;
             this.conversionRate = responseObj[Object.keys(responseObj)[0]];
-            console.log('yay!', this.conversionRate);
+            console.log(`yay! here is the conversion rate for ${this.currencyValuesForUrl}`, this.conversionRate);
           } else {
             console.log('Error returning rates; please try again');
           }
@@ -81,17 +95,15 @@ export class AppComponent implements OnInit, OnDestroy {
       );
   }
 
-  private setCurrenciesForGetRateReq(): string {
-    const inputCurrencyType = this.currencyForm.get('inputCurrencyType').value;
-    const convertedCurrencyType = this.currencyForm.get('convertedCurrencyType').value;
-
+  private setCurrenciesForGetRateReq(inputCurrencyType, convertedCurrencyType): void {
     if (!inputCurrencyType || !convertedCurrencyType) {
-      alert('You are missing key data, please enter the currencies you wish you convert');
+      alert('You are missing key data, please select the currencies you wish to convert');
     }
 
     const currencyValues = `${inputCurrencyType}_${convertedCurrencyType}`;
-    // console.log(currencyValues);
-    return currencyValues;
+    this.currencyValuesForUrl = currencyValues;
+    console.log(this.currencyValuesForUrl);
+    this.setCurrenciesForConversion();
   }
 
 }
